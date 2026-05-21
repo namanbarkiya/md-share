@@ -85,7 +85,7 @@ function PostColophon({
       : theme === "console"
       ? "#9a9588"
       : "#b4ada0";
-  const max = theme === "console" ? 760 : 680;
+  const max = theme === "console" ? 880 : 760;
   const date = new Date(createdAt).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
@@ -96,7 +96,7 @@ function PostColophon({
       style={{
         maxWidth: max,
         margin: "0 auto",
-        padding: "0 32px 80px",
+        padding: "0 clamp(20px, 5vw, 44px) 80px",
       }}
     >
       <hr
