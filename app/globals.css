@@ -1,0 +1,550 @@
+@import "tailwindcss";
+
+/* ── Editorial Paper design tokens ─────────────────────────────────── */
+
+@theme {
+  --color-paper: #faf7f2;
+  --color-paper-elev: #ffffff;
+  --color-ink: #181613;
+  --color-ink-muted: #6b655a;
+  --color-ink-faint: #b4ada0;
+  --color-hairline: #e8e3d8;
+  --color-vermillion: #d63a1f;
+  --color-vermillion-soft: #f4dfd9;
+
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  color-scheme: light;
+  --paper: #faf7f2;
+  --paper-elev: #ffffff;
+  --ink: #181613;
+  --ink-muted: #6b655a;
+  --ink-faint: #b4ada0;
+  --hairline: #e8e3d8;
+  --vermillion: #d63a1f;
+  --vermillion-soft: #f4dfd9;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Paper grain — fixed overlay, sits behind everything via mix-blend */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.094  0 0 0 0 0.086  0 0 0 0 0.075  0 0 0 1 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+}
+body > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Selection */
+::selection {
+  background: var(--vermillion);
+  color: var(--paper);
+}
+
+/* Page-enter stagger — root children fade-rise on initial load */
+@keyframes paper-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.stage > * {
+  opacity: 0;
+  animation: paper-rise 700ms var(--ease-editorial) forwards;
+}
+.stage > *:nth-child(1) {
+  animation-delay: 60ms;
+}
+.stage > *:nth-child(2) {
+  animation-delay: 140ms;
+}
+.stage > *:nth-child(3) {
+  animation-delay: 220ms;
+}
+.stage > *:nth-child(4) {
+  animation-delay: 300ms;
+}
+.stage > *:nth-child(5) {
+  animation-delay: 380ms;
+}
+.stage > *:nth-child(6) {
+  animation-delay: 460ms;
+}
+
+/* Vermillion writing cursor — pulses with the heartbeat of the editor */
+@keyframes ink-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+textarea.editor-surface {
+  caret-color: var(--vermillion);
+  cursor: text;
+}
+textarea.editor-surface::placeholder {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* Link affordance for editorial "buttons that don't look like buttons" */
+.editorial-link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  text-decoration: none;
+}
+.editorial-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1.3rem;
+  bottom: -2px;
+  height: 1px;
+  background: var(--ink);
+  transition: background 280ms var(--ease-editorial),
+    right 280ms var(--ease-editorial);
+}
+.editorial-link .arrow {
+  display: inline-block;
+  transition: transform 280ms var(--ease-editorial),
+    color 280ms var(--ease-editorial);
+}
+.editorial-link:hover {
+  color: var(--vermillion);
+}
+.editorial-link:hover::after {
+  background: var(--vermillion);
+  right: 0;
+}
+.editorial-link:hover .arrow {
+  transform: translateX(4px);
+  color: var(--vermillion);
+}
+
+/* Vermillion fill button — the ONE filled CTA */
+.fill-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.4rem;
+  background: var(--vermillion);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  border: 1px solid var(--vermillion);
+  border-radius: 0;
+  cursor: pointer;
+  transition: transform 280ms var(--ease-editorial),
+    background 280ms var(--ease-editorial);
+}
+.fill-button:hover {
+  background: #b92f17;
+  transform: translateY(-1px);
+}
+.fill-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Hairline rule */
+.hairline {
+  height: 1px;
+  width: 100%;
+  background: var(--hairline);
+  border: 0;
+}
+
+/* Chip / theme picker pill */
+.theme-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 280ms var(--ease-editorial);
+}
+.theme-chip[data-active="true"] {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: var(--paper-elev);
+}
+.theme-chip:hover {
+  color: var(--ink);
+}
+
+/* Ensure the live previews and themed posts get isolated stacking */
+.themed-surface {
+  isolation: isolate;
+}
+
+/* ── Reading themes ─────────────────────────────────────────────────
+   Each theme is a complete identity. Drives /p/[slug] AND the
+   right-side preview pane in /create.                                */
+
+.prose-mdshare {
+  font-feature-settings: "kern", "liga", "onum";
+}
+.prose-mdshare > * + * {
+  margin-top: 1.2em;
+}
+.prose-mdshare p {
+  margin: 0;
+}
+.prose-mdshare a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose-mdshare ul,
+.prose-mdshare ol {
+  padding-left: 1.6em;
+}
+.prose-mdshare li + li {
+  margin-top: 0.35em;
+}
+.prose-mdshare blockquote {
+  border-left: 1px solid currentColor;
+  padding-left: 1.2em;
+  opacity: 0.75;
+  font-style: italic;
+}
+.prose-mdshare hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: 2.2em 0;
+}
+.prose-mdshare img {
+  max-width: 100%;
+  height: auto;
+}
+.prose-mdshare table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+.prose-mdshare th,
+.prose-mdshare td {
+  padding: 0.55em 0.85em;
+  border-bottom: 1px solid var(--hairline);
+  text-align: left;
+}
+.prose-mdshare th {
+  font-weight: 600;
+}
+.prose-mdshare pre {
+  overflow-x: auto;
+}
+.prose-mdshare pre code {
+  display: block;
+  white-space: pre;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* The preview pane stretches to fill its column */
+.prose-mdshare.preview-fill {
+  width: 100%;
+  max-width: none !important;
+  padding: 5rem 4rem !important;
+  margin: 0 !important;
+  min-height: 100%;
+}
+
+/* ─── PAPER ─────────────────────────────────────────────────────── */
+.prose-mdshare-paper {
+  background: #faf7f2;
+  color: #181613;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 19px;
+  line-height: 1.72;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 120px 32px 100px;
+  font-feature-settings: "kern", "liga", "ss01", "onum";
+}
+.prose-mdshare-paper h1 {
+  font-size: 52px;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  font-weight: 400;
+  margin-bottom: 0.3em;
+}
+.prose-mdshare-paper h2 {
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+  font-weight: 400;
+  margin-top: 1.7em;
+}
+.prose-mdshare-paper h3 {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-top: 1.5em;
+}
+.prose-mdshare-paper > p:first-of-type::first-letter {
+  font-size: 5em;
+  line-height: 0.86;
+  float: left;
+  padding-right: 0.12em;
+  padding-top: 0.06em;
+  color: #d63a1f;
+  font-weight: 400;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-feature-settings: "ss01";
+}
+.prose-mdshare-paper pre {
+  background: #f3ede2;
+  border: 1px solid #e8e3d8;
+  padding: 1.05em 1.25em;
+  font-size: 0.84em;
+  line-height: 1.6;
+}
+.prose-mdshare-paper code:not(pre code) {
+  background: #f0e9dc;
+  padding: 0.12em 0.42em;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.86em;
+  border-radius: 2px;
+}
+.prose-mdshare-paper a {
+  color: #d63a1f;
+}
+.prose-mdshare-paper th,
+.prose-mdshare-paper td {
+  border-color: #e8e3d8;
+}
+
+/* ─── INK ───────────────────────────────────────────────────────── */
+.prose-mdshare-ink {
+  background: #0e0c0a;
+  color: #ede7da;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 19px;
+  line-height: 1.72;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 120px 32px 100px;
+  font-feature-settings: "kern", "liga", "ss01", "onum";
+}
+.prose-mdshare-ink h1,
+.prose-mdshare-ink h2,
+.prose-mdshare-ink h3 {
+  color: #faf5e9;
+  font-weight: 400;
+}
+.prose-mdshare-ink h1 {
+  font-size: 52px;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  margin-bottom: 0.3em;
+}
+.prose-mdshare-ink h2 {
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+  margin-top: 1.7em;
+}
+.prose-mdshare-ink h3 {
+  font-size: 22px;
+  font-weight: 500;
+  margin-top: 1.5em;
+}
+.prose-mdshare-ink > p:first-of-type::first-letter {
+  font-size: 5em;
+  line-height: 0.86;
+  float: left;
+  padding-right: 0.12em;
+  padding-top: 0.06em;
+  color: #ff5938;
+  font-weight: 400;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-feature-settings: "ss01";
+}
+.prose-mdshare-ink pre {
+  background: #1a1714;
+  border: 1px solid #2a241e;
+  padding: 1.05em 1.25em;
+  font-size: 0.84em;
+  line-height: 1.6;
+  color: #e0d9c8;
+}
+.prose-mdshare-ink code:not(pre code) {
+  background: #1a1714;
+  color: #ff8a6e;
+  padding: 0.12em 0.42em;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.86em;
+  border-radius: 2px;
+}
+.prose-mdshare-ink a {
+  color: #ff5938;
+}
+.prose-mdshare-ink hr {
+  border-color: #2a241e;
+}
+.prose-mdshare-ink blockquote {
+  border-color: #6b6256;
+}
+.prose-mdshare-ink th,
+.prose-mdshare-ink td {
+  border-color: #2a241e;
+}
+
+/* ─── CONSOLE ───────────────────────────────────────────────────── */
+.prose-mdshare-console {
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 14.5px;
+  line-height: 1.65;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 32px 100px;
+  font-feature-settings: "kern", "calt";
+}
+.prose-mdshare-console h1 {
+  font-size: 22px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6em;
+}
+.prose-mdshare-console h1::before {
+  content: "# ";
+  color: #b4ada0;
+  font-weight: 400;
+}
+.prose-mdshare-console h2 {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2.2em;
+  padding-top: 1.2em;
+  border-top: 1px solid #ececec;
+}
+.prose-mdshare-console h2::before {
+  content: "## ";
+  color: #b4ada0;
+  font-weight: 400;
+}
+.prose-mdshare-console h3 {
+  font-size: 14.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.prose-mdshare-console h3::before {
+  content: "### ";
+  color: #b4ada0;
+  font-weight: 400;
+}
+.prose-mdshare-console pre {
+  background: #f7f7f7;
+  border: 1px solid #ececec;
+  padding: 1em 1.2em;
+  font-size: 0.95em;
+  line-height: 1.55;
+}
+.prose-mdshare-console code:not(pre code) {
+  background: transparent;
+  color: #5e8000;
+  padding: 0;
+  font-size: 1em;
+}
+.prose-mdshare-console code:not(pre code)::before {
+  content: "`";
+  color: #b4ada0;
+}
+.prose-mdshare-console code:not(pre code)::after {
+  content: "`";
+  color: #b4ada0;
+}
+.prose-mdshare-console a {
+  color: #0a0a0a;
+  text-decoration: underline;
+  text-decoration-color: #d4ff00;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 2px;
+}
+.prose-mdshare-console blockquote {
+  border-color: #b4ada0;
+  font-style: normal;
+  opacity: 1;
+  color: #6b655a;
+}
+.prose-mdshare-console blockquote::before {
+  content: "> ";
+  color: #b4ada0;
+}
+.prose-mdshare-console hr {
+  border-color: #ececec;
+}
+.prose-mdshare-console th,
+.prose-mdshare-console td {
+  border-color: #ececec;
+}
+.prose-mdshare-console ul {
+  list-style: none;
+  padding-left: 0;
+}
+.prose-mdshare-console ul li::before {
+  content: "- ";
+  color: #b4ada0;
+}
+.prose-mdshare-console ol {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: item;
+}
+.prose-mdshare-console ol li {
+  counter-increment: item;
+}
+.prose-mdshare-console ol li::before {
+  content: counter(item) ". ";
+  color: #b4ada0;
+}
