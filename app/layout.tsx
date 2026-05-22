@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -21,18 +22,20 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const SITE_URL = "https://mdshare.app";
+const SITE_URL = "https://mdshare.nbarkiya.xyz";
 const SITE_NAME = "mdshare";
+const OG_IMAGE =
+  "https://res.cloudinary.com/dvt5vkfwz/image/upload/mdshare_og_url.png";
 const TAGLINE =
-  "Share markdown as a real web page — not a raw gist, not a signup wall.";
+  "Share markdown as a public web page. No Gist viewer, no signup wall.";
 const DESCRIPTION =
-  "Paste markdown, get a beautifully rendered shareable link. Three editorial themes, syntax-highlighted code, slug from the title. No signup until you publish.";
+  "Paste markdown, get a public URL that renders it as a web page. Three reading themes, Shiki syntax highlighting, slug from your title. No signup until you click publish.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "mdshare — share markdown as a beautiful link",
-    template: "%s — mdshare",
+    default: "mdshare: share markdown as a link",
+    template: "%s · mdshare",
   },
   description: DESCRIPTION,
   applicationName: SITE_NAME,
@@ -57,14 +60,23 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     url: SITE_URL,
-    title: "mdshare — share markdown as a beautiful link",
+    title: "mdshare: share markdown as a link",
     description: TAGLINE,
     locale: "en_US",
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "mdshare: share markdown as a link",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "mdshare — share markdown as a beautiful link",
+    title: "mdshare: share markdown as a link",
     description: TAGLINE,
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,
@@ -106,6 +118,7 @@ export default function RootLayout({
     >
       <body className="min-h-full">
         {children}
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(APP_JSON_LD) }}

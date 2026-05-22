@@ -31,6 +31,8 @@ export async function generateMetadata({
   }
   const description = excerpt(data.content);
   const canonical = `/p/${slug}`;
+  const OG_IMAGE =
+    "https://res.cloudinary.com/dvt5vkfwz/image/upload/mdshare_og_url.png";
   return {
     title: data.title,
     description,
@@ -41,11 +43,13 @@ export async function generateMetadata({
       description,
       url: canonical,
       publishedTime: data.created_at,
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: data.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: data.title,
       description,
+      images: [OG_IMAGE],
     },
   };
 }
@@ -98,7 +102,7 @@ export default async function PostPage({
     publisher: {
       "@type": "Organization",
       name: "mdshare",
-      url: "https://mdshare.app",
+      url: "https://mdshare.nbarkiya.xyz",
     },
   };
 

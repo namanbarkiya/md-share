@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
 
-const SITE_URL = "https://mdshare.app";
+const SITE_URL = "https://mdshare.nbarkiya.xyz";
 
 export const revalidate = 3600;
 

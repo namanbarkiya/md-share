@@ -11,7 +11,7 @@ import type { PostTheme } from "@/lib/themes";
 export const metadata = {
   title: "Your library",
   description:
-    "Every post you've published with mdshare — slugs, themes, view counts.",
+    "Every post you've published with mdshare. Slugs, themes, view counts.",
   robots: { index: false, follow: false },
 };
 
@@ -38,9 +38,9 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen flex flex-col px-6 sm:px-12 lg:px-24 pt-8 pb-10">
-      <header className="flex items-center justify-between">
-        <Brand size={18} />
-        <nav className="flex items-center gap-7 font-sans text-[13px] text-ink-muted">
+      <header className="flex items-center justify-between gap-4">
+        <Brand size={22} />
+        <nav className="flex items-center gap-5 sm:gap-8 font-sans text-[15px] sm:text-[16px] text-ink-muted">
           <Link
             href="/create"
             className="hover:text-ink transition-colors duration-300"

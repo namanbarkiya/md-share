@@ -35,8 +35,8 @@ export function LoginScreen() {
 
   return (
     <main className="min-h-screen flex flex-col px-8 sm:px-14 lg:px-20 pt-8 pb-10">
-      <header className="flex items-center justify-between">
-        <Brand size={18} />
+      <header className="flex items-center justify-between gap-4">
+        <Brand size={22} />
       </header>
       <section className="stage flex-1 flex flex-col justify-center max-w-[680px]">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint mb-10">
@@ -61,9 +61,9 @@ export function LoginScreen() {
           .
         </h1>
         <p className="mt-9 max-w-md font-sans text-[17px] leading-[1.55] text-ink-muted">
-          Google verifies it&apos;s you so the post belongs to your library —
-          edit it, delete it, watch the view count later. Your draft is held
-          safely in this tab and publishes the second you&apos;re back.
+          Google sign-in attaches the post to your account so you can edit it,
+          delete it, or check view counts later. Your draft stays in this tab
+          and publishes automatically after sign-in.
         </p>
         {errored && (
           <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-vermillion">

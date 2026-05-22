@@ -6,11 +6,11 @@ import { ArrowRight } from "@/components/arrow";
 const FAQ = [
   {
     q: "How do I share a markdown file as a link?",
-    a: "Paste your markdown into mdshare, pick a reading theme, and click Publish & get link. You get a public URL with a readable slug — no static site, no repo, no copy-pasting into a Gist.",
+    a: "Paste your markdown into mdshare, pick a reading theme, and click Publish & get link. You get a public URL with a slug from your title. No static site, no repo, no Gist.",
   },
   {
     q: "What's the difference between mdshare and a GitHub Gist?",
-    a: "A Gist renders markdown inside a code-viewer chrome. mdshare renders it as an actual web page — editorial typography, real headings, Shiki-highlighted code blocks, a clean URL — so what you share looks designed, not like source code.",
+    a: "A Gist renders your markdown inside the GitHub code-viewer. mdshare renders it as a normal web page with Shiki-highlighted code, readable typography, and a clean URL based on your title.",
   },
   {
     q: "Do I need an account to publish?",
@@ -22,7 +22,7 @@ const FAQ = [
   },
   {
     q: "Can I publish a long README or a technical doc?",
-    a: "Yes. Pick the Console theme for changelogs, READMEs, and developer-facing docs — it's monospace, dense, and built for code-heavy writing. Tables, fenced code, GFM, and footnotes all render cleanly.",
+    a: "Yes. Pick the Console theme for changelogs, READMEs, and developer docs. It uses a monospace font and works well for code-heavy writing. Tables, fenced code, GitHub-flavored markdown, and footnotes all render correctly.",
   },
 ];
 
@@ -45,9 +45,9 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col px-8 sm:px-14 lg:px-20 pt-8 pb-10">
-      <header className="flex items-center justify-between">
-        <Brand size={18} />
-        <nav className="flex items-center gap-7 text-[13px] text-ink-muted font-sans">
+      <header className="flex items-center justify-between gap-4">
+        <Brand size={22} />
+        <nav className="flex items-center gap-5 sm:gap-8 text-[15px] sm:text-[16px] text-ink-muted font-sans">
           <Link
             href="/create"
             className="hover:text-ink transition-colors duration-300"
@@ -91,9 +91,9 @@ export default function Home() {
 
         <p className="mt-10 max-w-2xl font-sans text-[18px] sm:text-[19px] leading-[1.55] text-ink-muted">
           Paste a <strong className="text-ink font-normal">markdown file</strong>{" "}
-          and get a shareable link that reads like a real publication — three
-          editorial themes, syntax-highlighted code, a clean URL from your
-          title. No raw gist. No signup wall.
+          and get a public URL. Pick from three reading themes, code blocks are
+          highlighted by Shiki, and the slug comes from your title. No Gist
+          viewer. No signup until you publish.
         </p>
 
         <div className="mt-12 flex items-center gap-10 flex-wrap">

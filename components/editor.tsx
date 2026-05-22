@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Upload } from "lucide-react";
 import { Brand } from "./brand";
 import { Hairline } from "./hairline";
 import { ArrowRight } from "./arrow";
@@ -79,16 +80,17 @@ export function Editor({ resumeMode }: { resumeMode: boolean }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-6 sm:px-10 py-5 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-6 sm:gap-8">
-          <Brand size={18} />
+    <div className="h-[100dvh] flex flex-col overflow-hidden">
+      <header className="flex-none bg-paper px-5 sm:px-10 py-4 sm:py-5 flex items-center justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+          <Brand size={22} />
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="font-sans text-[11.5px] text-ink-muted hover:text-ink uppercase tracking-[0.14em] transition-colors duration-300"
+            className="inline-flex items-center gap-2 border border-hairline hover:border-ink hover:text-ink px-3 py-1.5 font-sans text-[13px] text-ink-muted transition-colors duration-300"
           >
-            Upload .md
+            <Upload size={14} strokeWidth={1.75} />
+            <span className="hidden xs:inline sm:inline">Upload .md</span>
           </button>
           <input
             ref={fileInputRef}
@@ -124,7 +126,7 @@ export function Editor({ resumeMode }: { resumeMode: boolean }) {
       </header>
 
       {/* Mobile-only secondary bar: theme + view toggle */}
-      <div className="md:hidden px-6 pb-3 flex items-center justify-between gap-3">
+      <div className="flex-none md:hidden px-5 pb-3 flex items-center justify-between gap-3">
         <ThemePicker value={theme} onChange={setTheme} compact />
         <div className="flex border border-hairline">
           <button
@@ -148,26 +150,28 @@ export function Editor({ resumeMode }: { resumeMode: boolean }) {
         </div>
       </div>
 
-      <Hairline />
+      <div className="flex-none">
+        <Hairline />
+      </div>
 
       {error && (
-        <div className="px-6 sm:px-10 py-2.5 bg-vermillion-soft text-vermillion font-sans text-[13px] border-b border-hairline">
+        <div className="flex-none px-5 sm:px-10 py-2.5 bg-vermillion-soft text-vermillion font-sans text-[13px] border-b border-hairline">
           {error}
         </div>
       )}
 
       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 min-h-0">
-        {/* Write pane */}
+        {/* Write pane — textarea owns its own scrolling */}
         <div
           className={`${
             view === "preview" ? "hidden md:block" : ""
-          } bg-paper-elev md:border-r md:border-hairline overflow-y-auto`}
+          } bg-paper-elev md:border-r md:border-hairline min-h-0 overflow-hidden`}
         >
           <textarea
-            className="editor-surface w-full min-h-[calc(100vh-130px)] resize-none bg-transparent text-ink outline-none font-mono text-[14.5px] leading-[1.7] p-10 md:p-14"
+            className="editor-surface w-full h-full resize-none bg-transparent text-ink outline-none font-mono text-[14.5px] leading-[1.7] p-8 md:p-14 overflow-y-auto"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="# Start with a heading — it becomes your title and URL slug"
+            placeholder="# Start with a heading. It becomes your title and URL slug."
             spellCheck={false}
             aria-label="Markdown source"
           />
@@ -177,7 +181,7 @@ export function Editor({ resumeMode }: { resumeMode: boolean }) {
         <div
           className={`${
             view === "write" ? "hidden md:block" : ""
-          } overflow-y-auto`}
+          } overflow-y-auto min-h-0`}
           style={{ background: themeBg(theme) }}
         >
           <MarkdownPreview content={content} theme={theme} fillContainer />

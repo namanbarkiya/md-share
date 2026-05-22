@@ -65,7 +65,7 @@ export function JustPublished({ slug }: { slug: string }) {
             boxShadow: "0 0 0 4px rgba(214,58,31,0.18)",
           }}
         />
-        Your post is live — link ready to share.
+        Your post is live. Link ready to share.
       </span>
       <button
         type="button"

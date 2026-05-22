@@ -1,14 +1,14 @@
 # mdshare
 
-> Share markdown as a real web page — not a raw gist, not a signup wall.
+> Share markdown as a public web page. No Gist viewer, no signup wall.
 
-**mdshare** turns a `.md` file into a designed, shareable URL in two clicks.
-Paste your markdown, pick one of three editorial themes (Paper, Ink, Console),
-hit *Publish & get link* — you get a slug from your title, Shiki-highlighted
-code, and a page that looks like a publication, not source.
+**mdshare** turns a `.md` file into a shareable URL in two clicks. Paste your
+markdown, pick one of three reading themes (Paper, Ink, Console), hit
+*Publish & get link*. You get a slug from your title, Shiki-highlighted code,
+and a page that reads like a publication instead of source.
 
-Designed as a fast alternative to **HackMD**, **Telegraph**, **GitHub Gist**,
-and **Notion public pages** for anyone who wants to share a README, a note, an
+A fast alternative to **HackMD**, **Telegraph**, **GitHub Gist**, and
+**Notion public pages** for anyone who wants to share a README, a note, an
 AI-generated doc, or an essay with one link and zero setup.
 
 Built with Next.js 16, React 19, Tailwind v4, Supabase (Postgres + Auth + RLS),
@@ -19,15 +19,16 @@ highlighting.
 
 ## Stack at a glance
 
-- **Editorial Paper** site chrome — Fraunces serif, warm cream paper, single
-  vermillion accent. Awwwards-level reading experience.
-- **Three publish themes** the author picks per post — Paper, Ink, Console.
-- **Lazy Google OAuth** — the user only signs in at the moment they click
-  *Publish & get link*. Draft is stashed in `sessionStorage` and auto-submitted
-  after callback.
-- **Slug strategy** — slugified title, with `nanoid` suffix retry on collision.
-- **RLS** — anyone can read; only the author can write/update/delete their own
-  posts.
+- **Paper site chrome.** Fraunces serif, warm cream background, single
+  vermillion accent.
+- **Three publish themes** the author picks per post: Paper, Ink, Console.
+- **Lazy Google OAuth.** The user only signs in at the moment they click
+  *Publish & get link*. The draft is stashed in `sessionStorage` and
+  auto-submitted after the callback returns.
+- **Slug strategy.** Slugified title, with a `nanoid` suffix retry on
+  collision.
+- **RLS.** Anyone can read; only the author can write, update, or delete
+  their own posts.
 
 ## Local setup
 
@@ -43,7 +44,7 @@ need a Supabase project.
 ## Supabase setup (one-time, ~5 minutes)
 
 1. **Create a project** at <https://supabase.com/dashboard>.
-2. **Run the schema** — open the SQL editor and paste the contents of
+2. **Run the schema.** Open the SQL editor and paste the contents of
    `supabase/schema.sql`. Run it. (Creates the `posts` table, the `post_theme`
    enum, RLS policies, and the `increment_view` RPC.)
 3. **Enable Google sign-in**:
@@ -118,7 +119,7 @@ supabase/schema.sql                         # one-shot SQL
 | `--ink-muted`     | `#6b655a` | secondary text                    |
 | `--ink-faint`     | `#b4ada0` | mono small-caps labels            |
 | `--hairline`      | `#e8e3d8` | every divider                     |
-| `--vermillion`    | `#d63a1f` | THE accent — CTA, cursor, links   |
+| `--vermillion`    | `#d63a1f` | THE accent. CTA, cursor, links    |
 
 Fonts: **Fraunces** (display + reading body), **Geist Sans** (UI chrome),
 **Geist Mono** (code, small-caps labels). All free via `next/font/google`.
@@ -127,14 +128,14 @@ Fonts: **Fraunces** (display + reading body), **Geist Sans** (UI chrome),
 
 End-to-end with Supabase configured:
 
-1. Visit `/` — Fraunces hero renders, "Start writing →" goes to `/create`.
+1. Visit `/`. Fraunces hero renders, "Start writing →" goes to `/create`.
 2. Paste a markdown fixture, switch between Paper / Ink / Console themes,
    confirm the preview restyles in place.
 3. Click *Publish & get link* logged out → routed to `/login?next=…` → Google
    sign-in → `/auth/callback` → returns to `/create?resume=1` → draft
    auto-submits → redirected to `/p/<slug>?just=1`.
 4. Floating "Your post is live" toast appears on `/p/<slug>` once.
-5. Visit `/dashboard` — your new post is listed. Hover/tap → Copy link /
+5. Visit `/dashboard`. Your new post is listed. Hover/tap → Copy link /
    Delete. Sign out returns to `/`.
-6. Visit `/p/<slug>` directly without auth — public read works, view counter
+6. Visit `/p/<slug>` directly without auth. Public read works, view counter
    increments.

@@ -6,8 +6,8 @@ import { ArrowRight } from "@/components/arrow";
 export default function NotFound() {
   return (
     <main className="min-h-screen flex flex-col px-8 sm:px-14 lg:px-20 pt-8 pb-10">
-      <header className="flex items-center justify-between">
-        <Brand size={18} />
+      <header className="flex items-center justify-between gap-4">
+        <Brand size={22} />
       </header>
       <section className="stage flex-1 flex flex-col justify-center max-w-[680px]">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint mb-10">
